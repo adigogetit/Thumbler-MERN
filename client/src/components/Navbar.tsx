@@ -3,7 +3,7 @@ import { useState } from "react";
 import { motion } from "motion/react";
 import { navlinks } from "../data/navlinks";
 import type { INavLink } from "../types";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -16,21 +16,21 @@ export default function Navbar() {
                 viewport={{ once: true }}
                 transition={{ type: "spring", stiffness: 250, damping: 70, mass: 1 }}
             >
-                <a href="https://prebuiltui.com?utm_source=pixels">
-                    <img className="h-8.5 w-auto" src="/assets/logo.svg" alt="logo" width={130} height={34} />
-                </a>
+                <Link to='/'>
+                    <img src="/logo.svg" alt="logo" className="h-8.5 w-auto"/>
+                </Link>
 
                 <div className="hidden md:flex items-center gap-8 transition duration-500">
-                    {navlinks.map((link: INavLink) => (
-                        <NavLink key={link.name} to={link.href} className="hover:text-pink-500 transition">
-                            {link.name}
-                        </NavLink>
-                    ))}
+                    <Link to='/' className="hover:text-pink-500 transition">Home</Link> 
+                    <Link to='/generate' className="hover:text-pink-500 transition">Generate</Link> 
+                    <Link to='/my-generation' className="hover:text-pink-500 transition">My-generation</Link> 
+                    <Link to='/#' className="hover:text-pink-500 transition">Contact</Link> 
                 </div>
 
                 <button className="hidden md:block px-6 py-2.5 bg-pink-600 hover:bg-pink-700 active:scale-95 transition-all rounded-full">
-                    Start free trial
+                    Get Started
                 </button>
+                
                 <button onClick={() => setIsOpen(true)} className="md:hidden">
                     <MenuIcon size={26} className="active:scale-90 transition" />
                 </button>
