@@ -1,32 +1,32 @@
 import type { ITestimonial } from "../types";
 
 export const testimonialsData: ITestimonial[] = [
-    {
-        image: 'https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=200',
-        name: 'Sophia Carter',
-        handle: '@sophiacodes',
-        date: 'February 14, 2025',
-        quote: 'This SaaS app has completely streamlined our onboarding process. What used to take hours now takes minutes!',
-    },
-    {
-        image: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=200',
-        name: 'Ethan Walker',
-        handle: '@ethanwrites',
-        date: 'March 3, 2025',
-        quote: 'We’ve tried several tools, but nothing comes close in terms of speed and simplicity. Absolute game-changer.',
-    },
-    {
-        image: 'https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=200&auto=format&fit=crop&q=60',
-        name: 'Maya Patel',
-        handle: '@mayapatel',
-        date: 'April 22, 2025',
-        quote: 'The automation features alone have saved our team countless hours every week. Worth every penny.',
-    },
-    {
-        image: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=200&auto=format&fit=crop&q=60',
-        name: 'Liam Brooks',
-        handle: '@liambrooks',
-        date: 'May 18, 2025',
-        quote: 'Setup was ridiculously easy. Within 10 minutes, we were running live and onboarding our first customers.',
-    },
+  {
+    image: "https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?w=200&h=200&fit=crop",
+    name: "Aarav Sharma",
+    handle: "@aaravcreates",
+    date: "February 14, 2025",
+    quote: "My click-through rate improved quickly after using these AI thumbnails.",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1595152772835-219674b2a8a6?w=200&h=200&fit=crop",
+    name: "Rohan Mehta",
+    handle: "@rohanvlogs",
+    date: "March 3, 2025",
+    quote: "The AI saves time and creates thumbnails that actually get clicks.",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1586297135537-94bc9ba060aa?w=200&h=200&fit=crop",
+    name: "Priya Patel",
+    handle: "@priyadesigns",
+    date: "April 22, 2025",
+    quote: "Clean, professional thumbnails that make my channel stand out.",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1600180758890-6b94519a8ba6?w=200&h=200&fit=crop",
+    name: "Kunal Verma",
+    handle: "@kunaltech",
+    date: "May 18, 2025",
+    quote: "Best AI tool I’ve used for fast, high-quality thumbnails.",
+  },
 ];

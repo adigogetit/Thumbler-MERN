@@ -1,6 +1,5 @@
 'use client'
 import SectionTitle from "../components/SectionTitle";
-import { ArrowUpRight } from "lucide-react";
 import { motion } from "motion/react";
 import { featuresData } from "../data/features";
 import type { IFeature } from "../types";
