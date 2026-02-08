@@ -7,7 +7,7 @@ import LenisScroll from "./components/LenisScroll";
 import Generate from "./pages/Generate";
 import MyGenerations from "./pages/MyGenerations";
 import Ytpreview from "./pages/Ytpreview";
-import { LogIn } from "lucide-react";
+import Login from "./components/Login";
 
 export default function App() {
     return (
@@ -20,7 +20,7 @@ export default function App() {
                 <Route path="/generate/:id" element={<Generate />} />
                 <Route path="/my-generation" element={<MyGenerations />} />
                 <Route path="/preview" element={<Ytpreview />} />
-                <Route path="/login" element={<LogIn />} />
+                <Route path="/login" element={<Login />} />
             </Routes>
             <Footer />
         </>
