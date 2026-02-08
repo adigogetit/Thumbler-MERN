@@ -21,7 +21,7 @@ export default function ContactSection() {
                     viewport={{ once: true }}
                     transition={{ type: "spring", stiffness: 320, damping: 70, mass: 1 }}
                 >
-                    <p className='mb-2 font-medium'>Your Full name</p>
+                    <p className='mb-2 font-medium'>Your name</p>
                     <div className='flex items-center pl-3 rounded-lg border border-slate-700 focus-within:border-pink-500'>
                         <UserIcon className='size-5' />
                         <input name='name' type="text" placeholder='Enter your name' className='w-full p-3 outline-none' />
