@@ -31,9 +31,39 @@ const Generate = () => {
                     Describe your vision and let AI bring it to life
                   </p>
                 </div>
-              
+
+                <div className="space-y-4">
+                  {/* {Title input} */}
+                  <div>
+                    <label htmlFor="title" className="block text-sm font-medium text-zinc-300 mb-1">
+                      Title or Topic
+                    </label>
+                    <input
+                      type="text"
+                      id="title"
+                      value={title}
+                      maxLength={100}
+                      onChange={(e) => setTitle(e.target.value)}
+                      placeholder="E.g. 'How to Train Your Dragon'"
+                      className="w-full px-4 py-3 rounded-xl bg-white/8 border border-white/12 text-sm text-zinc-100 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"/>
+                      <div>
+                        <span className="text-xs text-zinc-400">{title.length}/100</span>
+                      </div>
+                  </div>
+
+                <div />
+
+                  {/* {button} */}
+                  {!id && (
+                    <button className="text-[15px] w-full py-3.5 rounded-xl font-medium bg-linear-to-b from-pink-500 to-pink-600 hover:from-pink-700 disabled:cursor-not-allowed transition-colors">
+                      {loading ? 'Generating...' : 'Generate Thumbnail'}
+                    </button>
+                  )}
+                </div>
+
               </div>
             </div>
+
 
             {/* RIGHT PANEL */}
             <div></div>
