@@ -37,6 +37,7 @@ const Generate = () => {
                   <div>
                     <label htmlFor="title" className="block text-sm font-medium text-zinc-300 mb-1">
                       Title or Topic
+                      <span className="text-xs text-zinc-400 ml-1">({title.length}/100)</span>
                     </label>
                     <input
                       type="text"
@@ -44,14 +45,29 @@ const Generate = () => {
                       value={title}
                       maxLength={100}
                       onChange={(e) => setTitle(e.target.value)}
-                      placeholder="E.g. 'How to Train Your Dragon'"
-                      className="w-full px-4 py-3 rounded-xl bg-white/8 border border-white/12 text-sm text-zinc-100 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"/>
-                      <div>
-                        <span className="text-xs text-zinc-400">{title.length}/100</span>
-                      </div>
+                      placeholder="E.g. Gaming Montage - Epic Moments"
+                      className="w-full px-4 py-3 rounded-xl bg-white/8 border border-white/12 text-sm text-zinc-100 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent" />
                   </div>
 
-                <div />
+                  {/* {AspectRationSelector} */}
+                  {/* {StyleSelector} */}
+                  {/* {ColorSchemeSelector} */}
+
+                  {/* {Details} */}
+                  <div className="space-y-2">
+                    <label htmlFor="details" className="block text-sm font-medium text-zinc-300">
+                      Additional Details
+                      <span className="text-xs text-zinc-400 ml-1">(optional)</span>
+                    </label>
+                    <textarea
+                      id="details"
+                      value={additionalDetails}
+                      onChange={(e) => setAdditionalDetails(e.target.value)}
+                      placeholder="E.g. Bold red and yellow colors, dynamic action shots...."
+                      className="w-full px-4 py-3 rounded-xl bg-white/8 border border-white/12 text-sm text-zinc-100 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent resize-none h-24" />
+                  </div>
+
+
 
                   {/* {button} */}
                   {!id && (
