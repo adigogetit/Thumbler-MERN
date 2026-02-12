@@ -49,7 +49,7 @@ const Generate = () => {
                       className="w-full px-4 py-3 rounded-xl bg-white/8 border border-white/12 text-sm text-zinc-100 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent" />
                   </div>
 
-                  {/* {AspectRationSelector} */}
+                  {/* {AspectRatioSelector} */}
                   {/* {StyleSelector} */}
                   {/* {ColorSchemeSelector} */}
 
