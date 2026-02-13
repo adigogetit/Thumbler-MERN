@@ -1,7 +1,9 @@
-import { ChevronDown, CpuIcon, ImageIcon, PenToolIcon, SparkleIcon, SquareIcon } from "lucide-react";
+import { ChevronDown, Clock, Film, Minimize, Smile, Zap } from "lucide-react";
 
 import type React from "react";
-import { thumbnailStyles} from "../assets/assets";
+import { thumbnailStyles } from "../assets/assets";
+import type { ThumbnailStyle } from "../assets/assets";
+
 
 type Props = {
     value: ThumbnailStyle;
@@ -21,12 +23,13 @@ const StyleSelector = ({ value, onChange, isOpen, setIsOpen }: Props) => {
     };
 
     const styleIcons: Record<ThumbnailStyle, React.ReactNode> = {
-        vibrant: <SparkleIcon className="size-6 rounded-sm bg-gradient-to-tr from-pink-500 to-yellow-500" />,
-        minimal: <SquareIcon className="size-6 rounded-sm bg-gray-500" />,
-        cinematic: <ImageIcon className="size-6 rounded-sm bg-gradient-to-tr from-blue-500 to-purple-500" />,
-        cartoon: <PenToolIcon className="size-6 rounded-sm bg-gradient-to-tr from-green-500 to-blue-500" />,
-        retro: <CpuIcon className="size-6 rounded-sm bg-gradient-to-tr from-orange-500 to-red-500" />,
+        vibrant: <Zap className="size-6 p-1.5 rounded-lg bg-gradient-to-br from-fuchsia-600 to-purple-700 shadow-md shadow-fuchsia-900/40 text-white" />,
+        minimal: <Minimize className="size-6 p-1.5 rounded-lg bg-zinc-700 shadow-md shadow-black/40 text-white" />,
+        cinematic: <Film className="size-6 p-1.5 rounded-lg bg-gradient-to-br from-slate-800 to-black shadow-md shadow-black/50 text-white" />,
+        cartoon: <Smile className="size-6 p-1.5 rounded-lg bg-gradient-to-br from-pink-500 to-orange-500 shadow-md shadow-pink-900/40 text-white" />,
+        retro: <Clock className="size-6 p-1.5 rounded-lg bg-gradient-to-br from-amber-600 to-yellow-500 shadow-md shadow-amber-900/40 text-white" />,
     };
+
 
     return (
         <div className="relative space-y-3 dark">
@@ -55,30 +58,29 @@ const StyleSelector = ({ value, onChange, isOpen, setIsOpen }: Props) => {
             </button>
 
             {isOpen && (
-                <div className="absolute top-full left-0 z-50 mt-1 w-full rounded-md border border-white/12 bg-black/20 backdrop-blur-3xl shadow-lg">
-                    {thumbnailStyles.map((style) => (
-                        <button
-                            key={style}
-                            type="button"
-                            onClick={() => {
-                                onChange(style);
-                                setIsOpen(false);
-                            }}
-                            className={`flex w-full items-start gap-3 px-4 py-3 text-left transition hover:bg-black/30 ${value === style ? "bg-black/40" : ""
-                                }`}
-                        >
-                            <div className="mt-0.5">
-                                {styleIcons[style]}
-                            </div>
+                <div className="absolute bottom-full left-0 z-50 mb-1 w-full rounded-md border border-white/12 bg-black/20 backdrop-blur-3xl shadow-lg">
+                    {thumbnailStyles
+                        .filter((style) => style !== value)
+                        .map((style) => (
 
-                            <div>
-                                <p className="font-medium capitalize">{style}</p>
-                                <p className="text-xs text-zinc-400">
-                                    {styleDescriptions[style]}
-                                </p>
-                            </div>
-                        </button>
-                    ))}
+                            <button
+                                key={style}
+                                type="button"
+                                onClick={() => {
+                                    onChange(style);
+                                    setIsOpen(false);
+                                }}
+                                className={`flex w-full items-start gap-3 px-4 py-3 text-left transition hover:bg-black/30}`}
+                            >
+                                <div className="mt-0.5">{styleIcons[style]}</div>
+                                <div>
+                                    <p className="font-medium capitalize">{style}</p>
+                                    <p className="text-xs text-zinc-400">
+                                        {styleDescriptions[style]}
+                                    </p>
+                                </div>
+                            </button>
+                        ))}
                 </div>
             )}
 

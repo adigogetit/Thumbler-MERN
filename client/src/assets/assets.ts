@@ -9,7 +9,7 @@ import thumb_7 from "./thumb_7.jpg";
 export const aspectRatios = ["16:9", "1:1", "9:16"];
 export type AspectRatio = (typeof aspectRatios)[number];
 
-export const thumbnailStyles = ["Bold & Graphic", "Minimalist", "Photorealistic", "Illustrated", "Tech/Futuristic"];
+export const thumbnailStyles = ["vibrant", "minimal", "cinematic", "cartoon", "retro"];
 export type ThumbnailStyle = (typeof thumbnailStyles)[number];
 
 export const colorSchemes = [
