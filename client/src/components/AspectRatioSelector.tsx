@@ -1,23 +1,44 @@
-import { RectangleCircle, RectangleVertical, Square } from 'lucide-react'
+import { RectangleHorizontal, RectangleVertical, Square } from 'lucide-react'
+import { aspectRatios, type AspectRatio } from '../assets/assets'
+import type React from 'react'
 
-
-const AspectRatioSelector = () => {
+const AspectRatioSelector = (
+    { value, onChange }: {
+        value: AspectRatio;
+        onChange: (ratio: AspectRatio) => void;
+    }
+) => {
+ 
     const iconMap = {
-            '16:9': <RectangleCircle className='size-6' />,
-            '1:1': <Square className='size-6' /> ,
-            '9:16': <RectangleVertical className='size-6' />
-        }
-    
+        '16:9': <RectangleHorizontal className='size-6' />,
+        '1:1': <Square className='size-6' />,
+        '9:16': <RectangleVertical className='size-6' />,
+    } as Record<AspectRatio, React.ReactNode>
+
+
     return (
-        < div className = 'space-y-3 dark' >
-        <label className="block text-sm font-medium text-zinc-300">Aspect Ratio</label>
+        <div className='space-y-3 dark' >
+            <label className="block text-sm font-medium text-zinc-300">Aspect Ratio</label>
 
-        <div className='flex flex-wrap gap-2'>
+            <div className='flex flex-wrap gap-2'>
+                {aspectRatios.map((ratio) => {
+                    return (
+                    <button
+                        key={ratio}
+                        type='button'
+                        onClick={() => onChange(ratio)}
+                        className={`flex items-center justify-center p-2 rounded-md border ${value === ratio ?'bg-white/10' :'hover:bg-white/5'}`} 
+                    >
+                        {iconMap[ratio]}
+                        <span className='tracking-widest'>{ratio}</span>
 
-        </div>
-      
-    </ >
-  )
+                    </button>
+                    )
+                })}
+            </div>
+
+        </div >
+    )
 }
 
 export default AspectRatioSelector
