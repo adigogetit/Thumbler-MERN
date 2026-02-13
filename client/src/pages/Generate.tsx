@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom"
 // import { IThumbnail } from "../assets/assets";
-import SoftBackdrop from "../components/SoftBackDrop";
+import SoftBackdrop from "../components/SoftBackdrop";
+import AspectRatioSelector from "../components/AspectRatioSelector";
+import { colorSchemes, type AspectRatio, type ThumbnailStyle } from "../assets/assets";
 
 const Generate = () => {
 
@@ -12,8 +14,15 @@ const Generate = () => {
   const [thumbnail, setThumbnail] = useState<IThumbnail | null>(null);
   const [loading, setLoading] = useState(false);
 
+  const [aspectRatio, setAspectRatio] = useState<AspectRatio>('16:9');
+  const [colorSchemeId, setColorSchemeId] = useState<string>(colorSchemes[0].id);
+  const [style, setStyle] = useState<ThumbnailStyle>('vibrant');
+   
+  const [styleDropdownOpen, setStyleDropdownOpen] = useState(false);
+
+
   return (
-    <>
+    <> 
       <SoftBackdrop />
       <div className="pt-24 min-h-screen">
         <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-28 lg:pb-8 ">
@@ -50,6 +59,7 @@ const Generate = () => {
                   </div>
 
                   {/* {AspectRatioSelector} */}
+                  <AspectRatioSelector value={aspectRatio} onChange={setAspectRatio} />
                   {/* {StyleSelector} */}
                   {/* {ColorSchemeSelector} */}
 
