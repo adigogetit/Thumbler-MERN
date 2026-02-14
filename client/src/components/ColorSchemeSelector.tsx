@@ -1,8 +1,8 @@
 import { colorSchemes } from "../assets/assets"
 
-const ColorSchemeSelector = ({ value, onchange }: {
+const ColorSchemeSelector = ({ value, onChange }: {
     value: string,
-    onchange: (color: string) => void
+    onChange: (color: string) => void
 }) => {
 
     return (
@@ -13,14 +13,14 @@ const ColorSchemeSelector = ({ value, onchange }: {
                 {colorSchemes.map((scheme) => (
                     <button
                         key={scheme.id}
-                        onClick={() => onchange(scheme.id)}
+                        onClick={() => onChange(scheme.id)}
                         className={`w-full h-10 rounded-lg border-2 ${value === scheme.id ? 'border-pink-500' : 'border-transparent'} focus:outline-none`}
                         title={scheme.name}
                     >
                         <div className="flex h-10 rounded-lg overflow-hidden">
-                            {scheme.color.map((color, index)=> (
+                            {scheme.colors.map((color, index)=> (
                                 <div key={index} style={{ backgroundColor: color }} className="flex-1" />
-                            )}
+                            ))}
                         </div>
 
                     </button>
