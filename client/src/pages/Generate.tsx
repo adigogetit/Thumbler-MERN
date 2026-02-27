@@ -67,7 +67,7 @@ const Generate = () => {
                   <StyleSelector value={style} onChange={setStyle} isOpen={styleDropdownOpen} setIsOpen={setStyleDropdownOpen} />
                    
                   {/* {ColorSchemeSelector} */}
-                  <ColorSchemeSelector value={colorSchemeId} onchange={setColorSchemeId} />
+                  <ColorSchemeSelector value={colorSchemeId} onChange={setColorSchemeId} />
 
                   {/* {Details} */}
                   <div className="space-y-2">
