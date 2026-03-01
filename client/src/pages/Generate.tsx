@@ -6,6 +6,7 @@ import AspectRatioSelector from "../components/AspectRatioSelector";
 import { colorSchemes, type AspectRatio, type ThumbnailStyle } from "../assets/assets";
 import StyleSelector from "../components/StyleSelector";
 import ColorSchemeSelector from "../components/ColorSchemeSelector";
+import PreviewPanel from "../components/PreviewPanel";
 
 const Generate = () => {
 
@@ -98,7 +99,12 @@ const Generate = () => {
 
 
             {/* RIGHT PANEL */}
-            <div></div>
+            <div>
+              <div className="p-6 rounded-2xl bg-white/8 border border-white/10 shadow-xl">
+                <h2 className="text-lg font-semibold text-zinc-50 mb-4">Preview</h2>
+                <PreviewPanel thumbnail={thumbnail} isLoading={loading} aspectRatio={aspectRatio}/>
+              </div>
+            </div>
 
 
           </div>

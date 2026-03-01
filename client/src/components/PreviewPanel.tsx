@@ -2,7 +2,7 @@ import type { AspectRatio, IThumbnail } from "../assets/assets"
 import { DownloadIcon, ImageIcon, Loader2Icon } from "lucide-react"
 
 const PreviewPanel = ({ thumbnail, isLoading, aspectRatio }:
-  { thumbnail: IThumbnail, isLoading: boolean, aspectRatio: AspectRatio }
+  { thumbnail: IThumbnail | null, isLoading: boolean, aspectRatio: AspectRatio }
 ) => {
 
   const aspectClasses = {
@@ -46,7 +46,7 @@ const PreviewPanel = ({ thumbnail, isLoading, aspectRatio }:
         )}
 
         {/* {empty state} */}
-        {!isLoading && thumbnail?.image_url && (
+        {!isLoading && !thumbnail?.image_url && (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 rounded-lg border-2 border-dashed border-white/20 bg-black/25">
 
             <div className="max-sm:hidden flex size-20 items-center justify-center rounded-full bg-white/10">
@@ -59,7 +59,7 @@ const PreviewPanel = ({ thumbnail, isLoading, aspectRatio }:
             </div>
           </div>
         )}
-        
+
       </div>
     </div>
   )
