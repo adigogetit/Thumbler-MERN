@@ -15,7 +15,6 @@ const AspectRatioSelector = (
         '9:16': <RectangleVertical className='size-6' />,
     } as Record<AspectRatio, React.ReactNode>
 
-
     return (
         <div className='space-y-3 dark' >
             <label className="block text-sm font-medium text-zinc-300">Aspect Ratio</label>
@@ -31,12 +30,10 @@ const AspectRatioSelector = (
                     >
                         {iconMap[ratio]}
                         <span className='tracking-widest'>{ratio}</span>
-
                     </button>
                     )
                 })}
             </div>
-
         </div >
     )
 }
