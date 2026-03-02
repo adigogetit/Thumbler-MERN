@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import SoftBackdrop from "../components/SoftBackdrop"
 import { dummyThumbnails, type IThumbnail } from "../assets/assets"
 import { Link, useNavigate } from "react-router-dom"
-import { ArrowRightIcon, DownloadIcon, TrashIcon } from "lucide-react"
+import { ArrowUpRightIcon, DownloadIcon, TrashIcon } from "lucide-react"
 
 
 const MyGenerations = () => {
@@ -118,7 +118,7 @@ const MyGenerations = () => {
                     className="size-6 bg-black/50 p-1 rounded hover:bg-pink-800 transition-all"/>
 
                     <Link target="_blank" to={`/preview?thumbnail_url=${thumb.image_url}&title=${thumb.title}`}>
-                      <ArrowRightIcon className="size-6 bg-black/50 p-1 rounded hover:bg-pink-800 transition-all"/>
+                      <ArrowUpRightIcon className="size-6 bg-black/50 p-1 rounded hover:bg-pink-800 transition-all"/>
                     </Link>
                   </div>
                   
