@@ -1,7 +1,30 @@
+import { useEffect, useState } from "react"
 import SoftBackdrop from "../components/SoftBackdrop"
+import { dummyThumbnails, type IThumbnail } from "../assets/assets"
 
 
 const MyGenerations = () => {
+
+  const [thumbnail,setThumbnail] = useState<IThumbnail>([])
+  const [loading,setLoading] = useState(false)
+  
+  const fetchThumbnails = async()=>{
+    setThumbnail(dummyThumbnails as unknown as IThumbnail[])
+    setLoading(false);
+  }
+
+  const handelDownload = (image_url:string)=>{
+    window.open(image_url,'_blank')
+  }
+
+  const handelDelete = async(id:string)=>{
+    console.log(id);
+  }
+
+  useEffect(()=>{
+    fetchThumbnails()
+  },[])
+
   return (
     <>
     <SoftBackdrop/>
