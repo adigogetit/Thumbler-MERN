@@ -6,7 +6,7 @@ import { div } from "motion/react-client"
 
 const MyGenerations = () => {
 
-  const [thumbnail,setThumbnail] = useState<IThumbnail>([])
+  const [thumbnail,setThumbnail] = useState<IThumbnail[]>([])
   const [loading,setLoading] = useState(false)
 
   const fetchThumbnails = async()=>{
@@ -16,7 +16,7 @@ const MyGenerations = () => {
 
   const handelDownload = (image_url:string)=>{
     window.open(image_url,'_blank')
-  }
+  }  
 
   const handelDelete = async(id:string)=>{
     console.log(id);
@@ -44,6 +44,14 @@ const MyGenerations = () => {
             <div key={i} className="rounded-2xl bg-white/6 border border-white/10 animate-pluse h-[260px]"/>
           ))}
         </div>
+      )}
+
+      {/* {Empty state} */}
+      {!loading && thumbnail.length===0 && (
+         <div className="text-center py-24">
+          <h3 className="text-lg font-semibold text-zinc-200">No Thumbnails yet</h3>
+          <p className="text-sm text-zinc-200 mt-2">Generate your first thumbnail to see it here </p>
+         </div>
       )}
 
     </div>
