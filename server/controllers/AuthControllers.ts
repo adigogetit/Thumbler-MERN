@@ -35,10 +35,8 @@ export const registerUser = async (req: Request, res: Response) => {
         })
 
     } catch (error: any) {
-        console.error('Error in registerUser:', error);
-        return res.status(500).json({
-            message: error.message
-        })
+        console.error(error);
+        return res.status(500).json({message: error.message})
     }
 }
 
@@ -71,10 +69,8 @@ export const loginUser = async (req: Request, res: Response) => {
         })
 
     } catch (error: any) {
-        console.error('Error in registerUser:', error);
-        return res.status(500).json({
-            message: error.message
-        })
+        console.error(error);
+        return res.status(500).json({message: error.message})
     }
 }
 
@@ -83,12 +79,28 @@ export const logoutUser = (req: Request, res: Response) => {
     req.session.destroy((error:any) => {
         if (error){
             console.error(error);
-            return res.status(500).json({
-            message: error.message
-            })
+            return res.status(500).json({message: error.message})
         }
     })
     return res.json({
         message: 'Logout Successful'
     })
+}
+
+// controller for verifying user
+export const verifyUser = async (req: Request, res: Response) => {
+    try {
+        const {userId} = req.session;
+        const user = await User.findById(userId).select('-password');
+
+        if(!user){
+            return res.status(404).json({ message: 'User not found' })
+        }
+
+        return res.json({user})
+
+    } catch (error: any) {
+        console.error(error);
+        return res.status(500).json({message: error.message})
+    }
 }
