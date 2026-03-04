@@ -1,6 +1,7 @@
 import { Request,Response } from "express";
 import User from "../models/User.js";
 import bcrypt from 'bcrypt';
+import { AnyConnectionBulkWriteModel } from "mongoose";
 
 // Controllers for user registrations
 export const registerUser = async (req:Request , res:Response)=>{
@@ -34,7 +35,10 @@ export const registerUser = async (req:Request , res:Response)=>{
             }
         })
 
-    } catch (error) {
-        
+    } catch (error:any) {
+        console.error('Error in registerUser:', error);
+        return res.status(500).json({
+            message: error.message
+        })
     }
 }
