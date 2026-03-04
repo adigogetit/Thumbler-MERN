@@ -21,6 +21,19 @@ export const registerUser = async (req:Request , res:Response)=>{
         const newUser = new User({name,email,password:hashedPassword});
         await newUser.save();
 
+        // setting user data in session
+        req.session.isLoggedIn = true;
+        req.session.userId = newUser._id.toString();
+
+        return res.json({
+            message:'User registered successfully',
+            user:{
+                id: newUser._id,
+                name: newUser.name,
+                email: newUser.email,
+            }
+        })
+
     } catch (error) {
         
     }
