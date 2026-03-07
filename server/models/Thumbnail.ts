@@ -13,6 +13,22 @@ export interface IThumbnail extends Document {
     prompt_used?: string;
     user_prompt?: string;
     isGenerating?: boolean;
-    createdAt?: Date;
+    createdAt?: Date; 
     updatedAt?: Date;
 }
+
+const thumbnailSchema = new mongoose.Schema<IThumbnail>(
+    {
+    _id: string;
+    userId: string;
+    title: string;
+    description?: string;
+    style: "Bold & Graphic" | "Tech/Futuristic" | "Minimalist" | "Photorealistic" | "Illustrated";
+    aspect_ratio?: "16:9" | "1:1" | "9:16";
+    color_scheme?: "vibrant" | "sunset" | "forest" | "neon" | "purple" | "monochrome" | "ocean" | "pastel";
+    text_overlay?: boolean;
+    image_url?: string;
+    prompt_used?: string;
+    user_prompt?: string;
+    isGenerating?: boolean;
+    }
