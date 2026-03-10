@@ -20,5 +20,6 @@ export const generateThumbnail = async (req: Request, res: Response) => {
         })
     } catch (error) {
 
+        
     }
 }
