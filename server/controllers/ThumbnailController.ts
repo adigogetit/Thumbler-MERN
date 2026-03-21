@@ -25,6 +25,8 @@ const colorSchemeDescriptions = {
     pastel: 'soft pastel colors, low saturation, gentle tones, calm and friendly aesthetic',
 }
 
+
+// controller for generating a thumbnail based on user input, we will use the google genai api to generate the image and save it to our database, we will also save the image to cloudinary for hosting the images
 export const generateThumbnail = async (req: Request, res: Response) => {
     try {
         const { userId } = req.session;
@@ -125,9 +127,26 @@ export const generateThumbnail = async (req: Request, res: Response) => {
         // remove img from file disk
         fs.unlinkSync(filePath);
 
-    } catch (error:any) {
+    } catch (error: any) {
         console.error('Error generating thumbnail:', error);
         res.status(500).json({ message: 'Failed to generate thumbnail', error: error.message });
- 
+
+    }
+}
+
+//  controller for deleting a thumbnail
+export const deleteThumbnail = async (req: Request, res: Response) => {
+
+    try {
+        const { id } = req.params;
+        const { userId } = req.session;
+
+        await Thumbnail.findByIdAndDelete({ _id: id, userId });
+
+        res.json({ message: 'Thumbnail deleted successfully' });
+
+    } catch (error: any) {
+        console.error('Error generating thumbnail:', error);
+        res.status(500).json({ message: 'Failed to generate thumbnail', error: error.message });
     }
 }
