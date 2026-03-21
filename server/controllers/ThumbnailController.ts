@@ -3,6 +3,8 @@ import Thumbnail from '../models/Thumbnail.js';
 import { GenerateContentConfig, HarmBlockThreshold, HarmCategory } from '@google/genai';
 import ai from '../configs/ai.js';
 import path from 'node:path';
+import fs from 'fs';
+import { v2 as cloudinary } from 'cloudinary';
 
 const stylePrompts = {
     'Vibrant': 'eye-catching thumbnail, bright bold colors, high contrast, saturated tones, glowing highlights, energetic composition, attention-grabbing design, modern YouTube style',
@@ -71,7 +73,7 @@ export const generateThumbnail = async (req: Request, res: Response) => {
         }
         prompt += ` The thumbnail should be ${aspect_ratio}, visually stunning, and designed to maximize click-through rate. Make it bold, professional, and impossible to ignore.`;
 
-        
+
 
         // Generate the image using the ai model
         const response: any = await ai.models.generateContent({
@@ -95,12 +97,31 @@ export const generateThumbnail = async (req: Request, res: Response) => {
             }
         }
 
+
         // make filename and path to save the image
         const filename = `final-output-${Date.now()}.png`;
         const filePath = path.join('images', filename);
 
-    } catch (error) {
+        // Create the images directory if it doesn't exist
+        fs.mkdirSync('images', { recursive: true })
 
+        // Write the final image to the file
+        fs.writeFileSync(filePath, finalBuffer!);
+
+
+        // adding cloudinary for uploading and hosting the images instead of saving them locally
+        const uploadResult = await cloudinary.uploader.upload(filePath, { resource_type: 'image' });
+
+        thumbnail.image_url = uploadResult.url;
+        thumbnail.isGenerating = false;
+        await thumbnail.save();
+
+        res.json({ message: 'Thumbnail generated successfully', thumbnail });
+
+
+
+    } catch (error) {
+ 
 
     }
 }
