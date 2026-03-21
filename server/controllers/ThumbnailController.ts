@@ -2,6 +2,25 @@ import { Request, Response } from 'express';
 import Thumbnail from '../models/Thumbnail.js';
 import { GenerateContentConfig, HarmBlockThreshold, HarmCategory } from '@google/genai';
 
+const stylePrompts = {
+  'Vibrant': 'eye-catching thumbnail, bright bold colors, high contrast, saturated tones, glowing highlights, energetic composition, attention-grabbing design, modern YouTube style',
+  'Minimal': 'minimalist thumbnail, clean layout, simple design, muted colors, lots of negative space, soft lighting, modern aesthetic, clear focal point, uncluttered composition',
+  'Cinematic': 'cinematic thumbnail, dramatic lighting, rich deep colors, movie-like atmosphere, depth and shadows, high dynamic range, epic composition, film still style',
+  'Cartoon': 'cartoon thumbnail, bold outlines, exaggerated features, vibrant colors, playful expressions, animated style, fun and engaging, comic or Pixar-style look',
+  'Retro': 'retro thumbnail, vintage design, faded colors, nostalgic vibe, grainy texture, old-school aesthetic, 80s/90s style, analog feel, classic typography'
+}
+
+const colorSchemeDescriptions = {
+  vibrant: 'vibrant and energetic colors, high saturation, bold contrasts, eye-catching palette',
+  sunset: 'warm sunset tones, orange pink and purple hues, soft gradients, cinematic glow',
+  forest: 'natural green tones, earthy colors, calm and organic palette, fresh atmosphere',
+  neon: 'neon glow effects, electric blues and pinks, cyberpunk lighting, high contrast glow',
+  purple: 'purple-dominant color palette, magenta and violet tones, modern and stylish mood',
+  monochrome: 'black and white color scheme, high contrast, dramatic lighting, timeless aesthetic',
+  ocean: 'cool blue and teal tones, aquatic color palette, fresh and clean atmosphere',
+  pastel: 'soft pastel colors, low saturation, gentle tones, calm and friendly aesthetic',
+}
+
 export const generateThumbnail = async (req: Request, res: Response) => {
     try {
         const { userId } = req.session;
@@ -27,7 +46,7 @@ export const generateThumbnail = async (req: Request, res: Response) => {
             topP: 0.95,
             responseModalities: ['IMAGE'],
             imageConfig: {
-                aspectRatio: '16:9',
+                aspectRatio: aspect_ratio || '16:9',
                 imageSize: '1K'
             },
             safetySettings: [
@@ -37,6 +56,8 @@ export const generateThumbnail = async (req: Request, res: Response) => {
                 { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.OFF },
             ]
         }
+
+        
 
 
 
