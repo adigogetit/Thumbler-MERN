@@ -63,6 +63,7 @@ export const generateThumbnail = async (req: Request, res: Response) => {
         }
 
 
+
         // create the prompt for the ai model based on the user input
         let prompt = `Create a ${stylePrompts[style as keyof typeof stylePrompts]} for: "${title}"`;
         if (color_scheme) {
@@ -89,6 +90,7 @@ export const generateThumbnail = async (req: Request, res: Response) => {
         const parts = response.candidates[0].content.parts;
 
 
+
         // Combine the image parts into a single buffer
         let finalBuffer: Buffer | null = null;
         for (const part of parts) {
@@ -96,6 +98,7 @@ export const generateThumbnail = async (req: Request, res: Response) => {
                 finalBuffer = Buffer.from(part.inlineData.data, 'base64')
             }
         }
+
 
 
         // make filename and path to save the image
@@ -109,6 +112,7 @@ export const generateThumbnail = async (req: Request, res: Response) => {
         fs.writeFileSync(filePath, finalBuffer!);
 
 
+
         // adding cloudinary for uploading and hosting the images instead of saving them locally
         const uploadResult = await cloudinary.uploader.upload(filePath, { resource_type: 'image' });
 
@@ -118,10 +122,12 @@ export const generateThumbnail = async (req: Request, res: Response) => {
 
         res.json({ message: 'Thumbnail generated successfully', thumbnail });
 
+        // remove img from file disk
+        fs.unlinkSync(filePath);
 
-
-    } catch (error) {
+    } catch (error:any) {
+        console.error('Error generating thumbnail:', error);
+        res.status(500).json({ message: 'Failed to generate thumbnail', error: error.message });
  
-
     }
 }
