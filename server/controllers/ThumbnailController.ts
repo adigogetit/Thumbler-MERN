@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import Thumbnail from '../models/Thumbnail.js';
 import { GenerateContentConfig, HarmBlockThreshold, HarmCategory } from '@google/genai';
 import ai from '../configs/ai.js';
+import path from 'node:path';
 
 const stylePrompts = {
     'Vibrant': 'eye-catching thumbnail, bright bold colors, high contrast, saturated tones, glowing highlights, energetic composition, attention-grabbing design, modern YouTube style',
@@ -40,6 +41,7 @@ export const generateThumbnail = async (req: Request, res: Response) => {
             isGenerating: true
         })
 
+        // define the model and generation config for the ai image generation
         const model = 'gemini-1.5-flash-image';
         const generationConfig: GenerateContentConfig = {
             maxOutputTokens: 32768,
@@ -58,6 +60,8 @@ export const generateThumbnail = async (req: Request, res: Response) => {
             ]
         }
 
+
+        // create the prompt for the ai model based on the user input
         let prompt = `Create a ${stylePrompts[style as keyof typeof stylePrompts]} for: "${title}"`;
         if (color_scheme) {
             prompt += ` Use a ${colorSchemeDescriptions[color_scheme as keyof typeof colorSchemeDescriptions]} color scheme.`;
@@ -67,6 +71,7 @@ export const generateThumbnail = async (req: Request, res: Response) => {
         }
         prompt += ` The thumbnail should be ${aspect_ratio}, visually stunning, and designed to maximize click-through rate. Make it bold, professional, and impossible to ignore.`;
 
+        
 
         // Generate the image using the ai model
         const response: any = await ai.models.generateContent({
@@ -74,14 +79,25 @@ export const generateThumbnail = async (req: Request, res: Response) => {
             contents: [prompt],
             config: generationConfig
         })
-
         // Check if the response is valid
         if (!response?.candidates?.[0]?.content?.parts) {
             throw new Error('Unexpected response')
         }
-
         // image will generate in parts, we need to combine them and save to our database
         const parts = response.candidates[0].content.parts;
+
+
+        // Combine the image parts into a single buffer
+        let finalBuffer: Buffer | null = null;
+        for (const part of parts) {
+            if (part.inlineData) {
+                finalBuffer = Buffer.from(part.inlineData.data, 'base64')
+            }
+        }
+
+        // make filename and path to save the image
+        const filename = `final-output-${Date.now()}.png`;
+        const filePath = path.join('images', filename);
 
     } catch (error) {
 
