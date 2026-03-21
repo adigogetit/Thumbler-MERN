@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import Thumbnail from '../models/Thumbnail.js';
 import { GenerateContentConfig, HarmBlockThreshold, HarmCategory } from '@google/genai';
+import ai from '../configs/ai.js';
 
 const stylePrompts = {
     'Vibrant': 'eye-catching thumbnail, bright bold colors, high contrast, saturated tones, glowing highlights, energetic composition, attention-grabbing design, modern YouTube style',
@@ -58,7 +59,6 @@ export const generateThumbnail = async (req: Request, res: Response) => {
         }
 
         let prompt = `Create a ${stylePrompts[style as keyof typeof stylePrompts]} for: "${title}"`;
-        
         if (color_scheme) {
             prompt += ` Use a ${colorSchemeDescriptions[color_scheme as keyof typeof colorSchemeDescriptions]} color scheme.`;
         }
@@ -68,6 +68,20 @@ export const generateThumbnail = async (req: Request, res: Response) => {
         prompt += ` The thumbnail should be ${aspect_ratio}, visually stunning, and designed to maximize click-through rate. Make it bold, professional, and impossible to ignore.`;
 
 
+        // Generate the image using the ai model
+        const response: any = await ai.models.generateContent({
+            model,
+            contents: [prompt],
+            config: generationConfig
+        })
+
+        // Check if the response is valid
+        if (!response?.candidates?.[0]?.content?.parts) {
+            throw new Error('Unexpected response')
+        }
+
+        // image will generate in parts, we need to combine them and save to our database
+        const parts = response.candidates[0].content.parts;
 
     } catch (error) {
 
