@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import Thumbnail from '../models/Thumbnail.js';
-import { GenerateContentConfig, HarmBlockThreshold, HarmCategory } from '@google/genai';
-import ai from '../configs/ai.js';
 import path from 'node:path';
 import fs from 'fs';
 import { v2 as cloudinary } from 'cloudinary';
+
+
 
 const stylePrompts = {
     'Vibrant': 'eye-catching thumbnail, bright bold colors, high contrast, saturated tones, glowing highlights, energetic composition, attention-grabbing design, modern YouTube style',
@@ -46,23 +46,7 @@ export const generateThumbnail = async (req: Request, res: Response) => {
         })
 
         // define the model and generation config for the ai image generation
-        const model = 'gemini-1.5-flash-image';
-        const generationConfig: GenerateContentConfig = {
-            maxOutputTokens: 32768,
-            temperature: 1,
-            topP: 0.95,
-            responseModalities: ['IMAGE'],
-            imageConfig: {
-                aspectRatio: aspect_ratio || '16:9',
-                imageSize: '1K'
-            },
-            safetySettings: [
-                { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.OFF },
-                { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.OFF },
-                { category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, threshold: HarmBlockThreshold.OFF },
-                { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.OFF },
-            ]
-        }
+
 
 
 
@@ -79,27 +63,17 @@ export const generateThumbnail = async (req: Request, res: Response) => {
 
 
         // Generate the image using the ai model
-        const response: any = await ai.models.generateContent({
-            model,
-            contents: [prompt],
-            config: generationConfig
-        })
+
+
         // Check if the response is valid
-        if (!response?.candidates?.[0]?.content?.parts) {
-            throw new Error('Unexpected response')
-        }
+
         // image will generate in parts, we need to combine them and save to our database
-        const parts = response.candidates[0].content.parts;
+
 
 
 
         // Combine the image parts into a single buffer
-        let finalBuffer: Buffer | null = null;
-        for (const part of parts) {
-            if (part.inlineData) {
-                finalBuffer = Buffer.from(part.inlineData.data, 'base64')
-            }
-        }
+
 
 
 
