@@ -5,7 +5,7 @@ export interface IThumbnail extends Document {
     userId: string;
     title: string;
     description?: string;
-    style: "Bold & Graphic" | "Tech/Futuristic" | "Minimalist" | "Photorealistic" | "Illustrated";
+    style: "Vibrant" | "Minimal" | "Cinematic" | "Cartoon" | "Retro";
     aspect_ratio?: "16:9" | "1:1" | "9:16";
     color_scheme?: "vibrant" | "sunset" | "forest" | "neon" | "purple" | "monochrome" | "ocean" | "pastel";
     text_overlay?: boolean;
@@ -22,7 +22,7 @@ const thumbnailSchema = new mongoose.Schema<IThumbnail>(
     userId: {type:String, ref:'User', required:true},
     title:{type:String, required:true, trim:true},
     description:{type:String,trim:true},
-    style:{type:String, required:true, enum:["Bold & Graphic" , "Tech/Futuristic" , "Minimalist" , "Photorealistic" , "Illustrated"]},
+    style:{type:String, required:true, enum:["vibrant" , "Minimal" , "Cinematic" , "Cartoon" , "Retro"]},
     aspect_ratio:{type:String, required:true, enum:["16:9" , "1:1" , "9:16"]},
     color_scheme:{type:String, required:true, enum:["vibrant" , "sunset", "forest" , "neon" , "purple" , "monochrome" , "ocean" , "pastel"]},
     text_overlay:{type:Boolean, default:false},

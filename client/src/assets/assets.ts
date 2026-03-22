@@ -37,7 +37,7 @@ export interface IThumbnail {
     userId: string;
     title: string;
     description?: string;
-    style: "Bold & Graphic" | "Tech/Futuristic" | "Minimalist" | "Photorealistic" | "Illustrated";
+    style: "Vibrant" | "Minimal" | "Cinematic" | "Cartoon" | "Retro";
     aspect_ratio?: "16:9" | "1:1" | "9:16";
     color_scheme?: "vibrant" | "sunset" | "forest" | "neon" | "purple" | "monochrome" | "ocean" | "pastel";
     text_overlay?: boolean;
@@ -62,7 +62,7 @@ export const dummyThumbnails = [
         _id: "69451ff3c9ea67e4c930f6a6",
         userId: "6942b3bd2a93a220baa331b3",
         title: "Top smartwatch under 1499",
-        style: "Bold & Graphic",
+        style: "Vibrant",
         aspect_ratio: "16:9",
         color_scheme: "vibrant",
         text_overlay: true,
@@ -78,7 +78,7 @@ export const dummyThumbnails = [
         _id: "69451d5bc9ea67e4c930f698",
         userId: "6942b3bd2a93a220baa331b3",
         title: "Learn How to make 100k in 10 days",
-        style: "Bold & Graphic",
+        style: "Vibrant",
         aspect_ratio: "16:9",
         color_scheme: "vibrant",
         text_overlay: true,
@@ -94,7 +94,7 @@ export const dummyThumbnails = [
         _id: "6943fb409fa048268a04f105",
         userId: "6942b3bd2a93a220baa331b3",
         title: "Learn NextJS 16 with a Project",
-        style: "Bold & Graphic",
+        style: "Vibrant",
         aspect_ratio: "16:9",
         color_scheme: "vibrant",
         text_overlay: true,
@@ -110,7 +110,7 @@ export const dummyThumbnails = [
         _id: "6943e8c763d3d5ec3e4f5c8c",
         userId: "6942b3bd2a93a220baa331b3",
         title: "Learn how to use Photoshop",
-        style: "Bold & Graphic",
+        style: "Vibrant",
         aspect_ratio: "16:9",
         color_scheme: "vibrant",
         text_overlay: true,
@@ -140,7 +140,7 @@ export const dummyThumbnails = [
         _id: "6943e04c0611d25b40e529ac",
         userId: "6942b3bd2a93a220baa331b3",
         title: "Learn Full Stack Development",
-        style: "Bold & Graphic",
+        style: "Vibrant",
         aspect_ratio: "16:9",
         color_scheme: "vibrant",
         text_overlay: true,
@@ -154,7 +154,7 @@ export const dummyThumbnails = [
         _id: "6943d68d5b9fed7040154a0f",
         userId: "6942b3bd2a93a220baa331b3",
         title: "Learn ReactJS in 2 hours",
-        style: "Bold & Graphic",
+        style: "Vibrant",
         aspect_ratio: "16:9",
         color_scheme: "ocean",
         text_overlay: true,
