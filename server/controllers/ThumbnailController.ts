@@ -4,7 +4,7 @@ import path from 'node:path';
 import fs from 'fs';
 import { v2 as cloudinary } from 'cloudinary';
 
-
+import fetch from 'node-fetch';
 
 const stylePrompts = {
     'Vibrant': 'eye-catching thumbnail, bright bold colors, high contrast, saturated tones, glowing highlights, energetic composition, attention-grabbing design, modern YouTube style',
@@ -45,9 +45,6 @@ export const generateThumbnail = async (req: Request, res: Response) => {
             isGenerating: true
         })
 
-        // define the model and generation config for the ai image generation
-
-
 
 
         // create the prompt for the ai model based on the user input
@@ -62,17 +59,39 @@ export const generateThumbnail = async (req: Request, res: Response) => {
 
 
 
-        // Generate the image using the ai model
+        // hugging face api called
+        const hfResponse = await fetch(
+            "https://router.huggingface.co/nscale/v1/images/generations",
+            {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${process.env.HF_API_KEY}`,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    model: "black-forest-labs/FLUX.1-schnell",
+                    prompt: prompt,
+                    size: "1024x1024"
+                }),
+            }
+        );
 
+        const data: any = await hfResponse.json();
+        if (!hfResponse.ok) {
+            console.error("HF FULL ERROR:", data);
+            throw new Error(
+                typeof data.error === "string"
+                    ? data.error
+                    : JSON.stringify(data.error)
+            );
+        }
 
-        // Check if the response is valid
-
-        // image will generate in parts, we need to combine them and save to our database
-
-
-
-
-        // Combine the image parts into a single buffer
+        const base64Image = data.data[0].b64_json;
+        if (!base64Image) {
+            console.error("HF RESPONSE:", data);
+            throw new Error("No image returned from API");
+        }
+        const finalBuffer = Buffer.from(base64Image, "base64");
 
 
 
