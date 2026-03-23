@@ -1,4 +1,4 @@
-import { createContext, useState, type ReactNode } from "react";
+import { createContext, useEffect, useState, type ReactNode } from "react";
 import type { IUser } from "../assets/assets";
 
 interface AuthContextProps {
@@ -42,6 +42,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const fetchUser = async () => {
 
     }
+
+    useEffect(()=>{
+        (async ()=>{
+            await fetchUser();
+        })();
+    },[])
 
 
     const value = {
