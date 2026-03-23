@@ -70,13 +70,24 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             toast.success(data.message)
 
         } catch (error) {
+            console.log(error); 
+        }
+    }
+    
+//  verify the user when componet get loaded  
+    const fetchUser = async () => {
+        try {
+            const { data } = await api.get('/api/auth/verify');
+            if(data.user){
+                setUser(data.user as IUser);
+                setIsLoggedIn(true);
+            }
+
+        } catch (error) {
             console.log(error);
         }
     }
 
-    const fetchUser = async () => {
-
-    }
 
     useEffect(() => {
         (async () => {
