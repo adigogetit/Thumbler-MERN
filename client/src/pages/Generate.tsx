@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"
+import { useLocation, useNavigate, useParams } from "react-router-dom"
 import { dummyThumbnails, type IThumbnail } from "../assets/assets";
 import SoftBackdrop from "../components/SoftBackdrop";
 import AspectRatioSelector from "../components/AspectRatioSelector";
@@ -7,10 +7,18 @@ import { colorSchemes, type AspectRatio, type ThumbnailStyle } from "../assets/a
 import StyleSelector from "../components/StyleSelector";
 import ColorSchemeSelector from "../components/ColorSchemeSelector";
 import PreviewPanel from "../components/PreviewPanel";
+import { useAuth } from "../context/AuthContext";
+import toast from "react-hot-toast";
+import api from "../configs/api";
 
 const Generate = () => {
 
   const { id } = useParams();
+  const { pathname } = useLocation()
+  const navigate = useNavigate()
+  const { isLoggedIn } = useAuth()
+
+
   const [title, setTitle] = useState('');
   const [additionalDetails, setAdditionalDetails] = useState('');
 
@@ -20,16 +28,36 @@ const Generate = () => {
   const [aspectRatio, setAspectRatio] = useState<AspectRatio>('16:9');
   const [colorSchemeId, setColorSchemeId] = useState<string>(colorSchemes[0].id);
   const [style, setStyle] = useState<ThumbnailStyle>('vibrant');
-   
+
   const [styleDropdownOpen, setStyleDropdownOpen] = useState(false);
 
-  const handeleGenerate = async()=>{
 
+  const handeleGenerate = async () => {
+    if (!isLoggedIn) return toast.error('Please login to generate thumbnails')
+    if (!title.trim()) return toast.error('Title is required')
+
+    setLoading(true)
+
+    const api_payload = {
+      title,
+      prompt: additionalDetails,
+      style,
+      aspect_ratio: aspectRatio,
+      color_scheme: colorSchemeId,
+      text_overlay: true,
+    }
+
+    const { data } = await api.post('/api/thumbnail/generate', api_payload);
+    if (data.thumbnail) {
+      navigate('/generate/' + data.thumbnail._id);
+      toast.success(data.message)
+    }
   }
 
-  const fetchThumbnail = async()=>{
-    if(id){
-      const thumbnail : any = dummyThumbnails.find((thumbnail)=>thumbnail._id === id);
+
+  const fetchThumbnail = async () => {
+    if (id) {
+      const thumbnail: any = dummyThumbnails.find((thumbnail) => thumbnail._id === id);
       setThumbnail(thumbnail)
       setAdditionalDetails(thumbnail.user_prompt)
       setTitle(thumbnail.title)
@@ -40,16 +68,17 @@ const Generate = () => {
     }
   }
 
-  useEffect(()=>{
-    if(id){
+
+  useEffect(() => {
+    if (id) {
       fetchThumbnail();
     }
-  },[id])
+  }, [id])
 
   return (
-    <> 
+    <>
       <SoftBackdrop />
-      
+
       <div className="pt-24 min-h-screen">
         <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-28 lg:pb-8 ">
           <div className="grid lg:grid-cols-[400px_1fr] gap-8">
@@ -89,7 +118,7 @@ const Generate = () => {
 
                   {/* {StyleSelector} */}
                   <StyleSelector value={style} onChange={setStyle} isOpen={styleDropdownOpen} setIsOpen={setStyleDropdownOpen} />
-                   
+
                   {/* {ColorSchemeSelector} */}
                   <ColorSchemeSelector value={colorSchemeId} onChange={setColorSchemeId} />
 
@@ -126,7 +155,7 @@ const Generate = () => {
             <div>
               <div className="p-6 rounded-2xl bg-white/8 border border-white/10 shadow-xl">
                 <h2 className="text-lg font-semibold text-zinc-50 mb-4">Preview</h2>
-                <PreviewPanel thumbnail={thumbnail} isLoading={loading} aspectRatio={aspectRatio}/>
+                <PreviewPanel thumbnail={thumbnail} isLoading={loading} aspectRatio={aspectRatio} />
               </div>
             </div>
 
