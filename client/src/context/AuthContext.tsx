@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import type { IUser } from "../assets/assets";
 import api from "../configs/api";
 import toast from "react-hot-toast";
@@ -74,7 +74,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         }
     }
     
-//  verify the user when componet get loaded  
+//  verify the user when component get loaded aur when page get reload
     const fetchUser = async () => {
         try {
             const { data } = await api.get('/api/auth/verify');
@@ -108,3 +108,5 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         </AuthContext.Provider>
     )
 }
+
+export const useAuth =()=> useContext(AuthContext);
