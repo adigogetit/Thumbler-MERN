@@ -1,39 +1,74 @@
 import { useEffect, useState } from "react"
 import SoftBackdrop from "../components/SoftBackdrop"
-import { dummyThumbnails, type IThumbnail } from "../assets/assets"
+import { type IThumbnail } from "../assets/assets"
 import { Link, useNavigate } from "react-router-dom"
 import { ArrowUpRightIcon, DownloadIcon, TrashIcon } from "lucide-react"
+import { useAuth } from "../context/AuthContext"
+import api from "../configs/api"
+import toast from "react-hot-toast"
 
 
 const MyGenerations = () => {
 
+  const { isLoggedIn } = useAuth()
   const navigate = useNavigate();
 
-  const aspectRatioClassMap: Record<String, string> = {
+  const aspectRatioClassMap: Record<string, string> = {
     "16:9": "aspect-video",
     "4:3": "aspect-square",
     "9:16": "aspect-[9/16]"
   }
 
-  const [thumbnail, setThumbnail] = useState<IThumbnail[]>([])
+  const [thumbnails, setThumbnails] = useState<IThumbnail[]>([])
   const [loading, setLoading] = useState(false)
 
+
   const fetchThumbnails = async () => {
-    setThumbnail(dummyThumbnails as unknown as IThumbnail[])
-    setLoading(false);
+    try {
+      setLoading(true)
+      const { data } = await api.get('/api/user/thumbnails')
+      setThumbnails(data.thumbnails || [])
+    }
+    catch (error: any) {
+      console.error(error);
+      toast.error(error?.response?.data?.message || error.message)
+    } finally {
+      setLoading(false);
+    }
   }
 
   const handelDownload = (image_url: string) => {
     window.open(image_url, '_blank')
+    const link = document.createElement('a');
+    link.href = image_url.replace('/upload', '/upload/fl_attachment');
+    document.body.appendChild(link);
+    link.click()
+    link.remove()
   }
 
-  const handelDelete = async (id: string) => {
-    console.log(id);
+  const handleDelete = async (id: string) => {
+    try {
+      const confirm = window.confirm('Are you sure you want to delete this thumbnail?')
+      if (!confirm) return;
+
+      const { data } = await api.delete(`/api/thumbnail/delete/${id}`)
+      toast.success(data.message)
+
+      setThumbnails(thumbnails.filter((t) => t._id !== id));
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error?.response?.data?.message || error.message)
+    }
   }
+
+
 
   useEffect(() => {
-    fetchThumbnails()
-  }, [])
+    if(isLoggedIn){
+      fetchThumbnails()
+    }
+  }, [isLoggedIn])
+
 
   return (
     <>
@@ -56,7 +91,7 @@ const MyGenerations = () => {
         )}
 
         {/* {Empty state} */}
-        {!loading && thumbnail.length === 0 && (
+        {!loading && thumbnails.length === 0 && (
           <div className="text-center py-24">
             <h3 className="text-lg font-semibold text-zinc-200">No Thumbnails yet</h3>
             <p className="text-sm text-zinc-200 mt-2">Generate your first thumbnail to see it here </p>
@@ -64,10 +99,10 @@ const MyGenerations = () => {
         )}
 
         {/* {Grid} */}
-        {!loading && thumbnail.length > 0 && (
+        {!loading && thumbnails.length > 0 && (
 
           <div className="columns-1 sm:columns-2 lg:columns-3 2xl:columns-4 gap-8">
-            {thumbnail.map((thumb: IThumbnail) => {
+            {thumbnails.map((thumb: IThumbnail) => {
               const aspectClass = aspectRatioClassMap[thumb.aspect_ratio || '16:9'];
 
               return (
@@ -91,7 +126,7 @@ const MyGenerations = () => {
                     )}
 
                     {thumb.isGenerating &&
-                     <div className="absolute inset-0 bg-black/10 flex items-center justify-center text-sm font-medium text-white">Generating..</div>
+                      <div className="absolute inset-0 bg-black/10 flex items-center justify-center text-sm font-medium text-white">Generating..</div>
                     }
                   </div>
 
@@ -107,21 +142,21 @@ const MyGenerations = () => {
                   </div>
 
                   {/* { some buttoms} */}
-                  <div onClick={(e)=>e.stopPropagation()} className="absolute bottom-2 right-2 max-sm:flex sm:hidden group-hover:flex gap-1.5">
+                  <div onClick={(e) => e.stopPropagation()} className="absolute bottom-2 right-2 max-sm:flex sm:hidden group-hover:flex gap-1.5">
 
                     <TrashIcon
-                    onClick={()=>handelDelete(thumb._id)}
-                    className="size-6 bg-black/50 p-1 rounded hover:bg-pink-800 transition-all"/>
+                      onClick={() => handleDelete(thumb._id)}
+                      className="size-6 bg-black/50 p-1 rounded hover:bg-pink-800 transition-all" />
 
-                    <DownloadIcon 
-                    onClick={()=>handelDownload(thumb.image_url!)}
-                    className="size-6 bg-black/50 p-1 rounded hover:bg-pink-800 transition-all"/>
+                    <DownloadIcon
+                      onClick={() => handelDownload(thumb.image_url!)}
+                      className="size-6 bg-black/50 p-1 rounded hover:bg-pink-800 transition-all" />
 
                     <Link target="_blank" to={`/preview?thumbnail_url=${thumb.image_url}&title=${thumb.title}`}>
-                      <ArrowUpRightIcon className="size-6 bg-black/50 p-1 rounded hover:bg-pink-800 transition-all"/>
+                      <ArrowUpRightIcon className="size-6 bg-black/50 p-1 rounded hover:bg-pink-800 transition-all" />
                     </Link>
                   </div>
-                  
+
                 </div>
               )
             })}
