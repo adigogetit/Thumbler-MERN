@@ -76,8 +76,9 @@ export const generateThumbnail = async (req: Request, res: Response) => {
         );
 
         const data: any = await hfResponse.json();
-        if (!hfResponse.ok) {
-            console.error("HF FULL ERROR:", data);
+
+        if (!hfResponse.ok || data.error) {
+            console.error("HF ERROR:", data);
             throw new Error(
                 typeof data.error === "string"
                     ? data.error
@@ -90,25 +91,30 @@ export const generateThumbnail = async (req: Request, res: Response) => {
             console.error("HF RESPONSE:", data);
             throw new Error("No image returned from API");
         }
-        const finalBuffer = Buffer.from(base64Image, "base64");
+        
+        // const finalBuffer = Buffer.from(base64Image, "base64");
 
 
+        const base64Data = `data:image/png;base64,${base64Image}`;
 
+        const uploadResult = await cloudinary.uploader.upload(base64Data, {
+            resource_type: 'image'
+        });
 
         // make filename and path to save the image
-        const filename = `final-output-${Date.now()}.png`;
-        const filePath = path.join('images', filename);
+        // const filename = `final-output-${Date.now()}.png`;
+        // const filePath = path.join('images', filename);
 
-        // Create the images directory if it doesn't exist
-        fs.mkdirSync('images', { recursive: true })
+        // // Create the images directory if it doesn't exist
+        // fs.mkdirSync('images', { recursive: true })
 
-        // Write the final image to the file
-        fs.writeFileSync(filePath, finalBuffer!);
+        // // Write the final image to the file
+        // fs.writeFileSync(filePath, finalBuffer!);
+
+        // // adding cloudinary for uploading and hosting the images instead of saving them locally
+        // const uploadResult = await cloudinary.uploader.upload(filePath, { resource_type: 'image' });
 
 
-
-        // adding cloudinary for uploading and hosting the images instead of saving them locally
-        const uploadResult = await cloudinary.uploader.upload(filePath, { resource_type: 'image' });
 
         thumbnail.image_url = uploadResult.url;
         thumbnail.isGenerating = false;
@@ -117,18 +123,28 @@ export const generateThumbnail = async (req: Request, res: Response) => {
         res.json({ message: 'Thumbnail generated successfully', thumbnail });
 
         // remove img from file disk
-        fs.unlinkSync(filePath);
+        // fs.unlinkSync(filePath);
 
     } catch (error: any) {
         console.error('Error generating thumbnail:', error);
-        res.status(500).json({ message: 'Failed to generate thumbnail', error: error.message });
 
+        // IMPORTANT: prevent stuck "Generating..."
+        if (req.body?.title) {
+            await Thumbnail.findOneAndUpdate(
+                { title: req.body.title, userId: req.session.userId },
+                { isGenerating: false }
+            );
+        }
+
+        res.status(500).json({
+            message: 'Failed to generate thumbnail',
+            error: error.message
+        });
     }
 }
 
 //  controller for deleting a thumbnail
 export const deleteThumbnail = async (req: Request, res: Response) => {
-
     try {
         const { id } = req.params;
         const { userId } = req.session;
