@@ -22,7 +22,7 @@ const thumbnailSchema = new mongoose.Schema<IThumbnail>(
     userId: {type:String, ref:'User', required:true},
     title:{type:String, required:true, trim:true},
     description:{type:String,trim:true},
-    style:{type:String, required:true, enum:["vibrant" , "Minimal" , "Cinematic" , "Cartoon" , "Retro"]},
+    style:{type:String, required:true, enum:["vibrant" , "minimal" , "cinematic" , "cartoon" , "retro"]},
     aspect_ratio:{type:String, required:true, enum:["16:9" , "1:1" , "9:16"]},
     color_scheme:{type:String, required:true, enum:["vibrant" , "sunset", "forest" , "neon" , "purple" , "monochrome" , "ocean" , "pastel"]},
     text_overlay:{type:Boolean, default:false},
