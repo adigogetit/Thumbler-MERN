@@ -71,7 +71,6 @@ export const generateThumbnail = async (req: Request, res: Response) => {
                 body: JSON.stringify({
                     model: "black-forest-labs/FLUX.1-schnell",
                     prompt: prompt,
-                    size: "1024x1024"
                 }),
             }
         );
