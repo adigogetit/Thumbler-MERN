@@ -95,7 +95,7 @@ const Login = () => {
                     </p>
 
                     <a
-                        href="http://localhost:3000/api/auth/google"
+                        href={`${import.meta.env.VITE_API_BASE_URL}/api/auth/google`}
                         className="mb-10 w-full h-11 flex items-center justify-center gap-3 rounded-lg border border-gray-300 bg-white text-gray-700 font-medium hover:bg-gray-50 transition"
                     >
                         <img
