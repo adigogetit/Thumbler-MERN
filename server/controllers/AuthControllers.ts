@@ -110,13 +110,25 @@ export const googleAuthSuccess = async (req: Request, res: Response) => {
     try {
         const user = req.user as any;
 
+        if (!user) {
+            return res.status(401).json({ message: "Authentication failed" });
+        }
+
         //store session (same as login)
         req.session.isLoggedIn = true;
         req.session.userId = user._id.toString();
 
-        return res.redirect("http://localhost:5173/");
-    } catch (error: any) {
+        // Get the frontend URL from environment or default to localhost
+        const frontendURL = process.env.NODE_ENV === "production" 
+            ? "https://thumblers.vercel.app" : "http://localhost:5173";
+
+        return res.redirect(`${frontendURL}/?auth=success`);
+    } 
+    catch (error: any) {
         console.error(error);
-        return res.status(500).json({ message: error.message });
+        const frontendURL = process.env.NODE_ENV === "production" 
+            ? "https://thumblers.vercel.app" : "http://localhost:5173";
+        
+        return res.redirect(`${frontendURL}/?auth=failed`);
     }
 };
