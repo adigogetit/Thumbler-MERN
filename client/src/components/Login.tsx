@@ -89,15 +89,20 @@ const Login = () => {
                         {state === "login" ? "Login" : "Sign up"}
                     </button>
 
-                    <p onClick={() => setState(prev => prev === "login" ? "register" : "login")} className="text-gray-400 text-sm mt-3 mb-11 cursor-pointer" >
+                    <p onClick={() => setState(prev => prev === "login" ? "register" : "login")} className="text-gray-400 text-sm mt-3 mb-4 cursor-pointer" >
                         {state === "login" ? "Don't have an account?" : "Already have an account?"}
                         <span className="text-pink-400 hover:underline ml-1">click here</span>
                     </p>
 
                     <a
-                        href="http://localhost:5173/auth/google"
-                        className="mt-3 w-full h-11 flex items-center justify-center rounded-full text-white bg-white/10 hover:bg-white/20 transition"
+                        href={`${import.meta.env.VITE_API_BASE_URL}/api/auth/google`}
+                        className="mb-10 w-full h-11 flex items-center justify-center gap-3 rounded-lg border border-gray-300 bg-white text-gray-700 font-medium hover:bg-gray-50 transition"
                     >
+                        <img
+                            src="https://www.svgrepo.com/show/475656/google-color.svg"
+                            alt="google"
+                            className="w-5 h-5"
+                        />
                         Continue with Google
                     </a>
                 </form>
