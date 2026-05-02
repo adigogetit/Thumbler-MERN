@@ -5,7 +5,7 @@ import User from "../models/User.js";
 // Get the API base URL for callback
 const getCallbackURL = () => {
   if (process.env.NODE_ENV === "production") {
-    return "https://thumblers.vercel.app/api/auth/google/callback";
+    return "https://thumbler-mern-server.vercel.app/api/auth/google/callback";
   }
   return "http://localhost:3000/api/auth/google/callback";
 };
