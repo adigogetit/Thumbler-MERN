@@ -104,3 +104,19 @@ export const verifyUser = async (req: Request, res: Response) => {
         return res.status(500).json({message: error.message})
     }
 }
+
+// controller for google auth
+export const googleAuthSuccess = async (req: Request, res: Response) => {
+    try {
+        const user = req.user as any;
+
+        //store session (same as login)
+        req.session.isLoggedIn = true;
+        req.session.userId = user._id.toString();
+
+        return res.redirect("http://localhost:5173/");
+    } catch (error: any) {
+        console.error(error);
+        return res.status(500).json({ message: error.message });
+    }
+};
