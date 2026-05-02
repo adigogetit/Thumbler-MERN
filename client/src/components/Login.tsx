@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom"
 const Login = () => {
     const [state, setState] = useState("login")
     const { user, login, signUp } = useAuth()
-    const API_URL = import.meta.env.VITE_BASE_URL || "http://localhost:3000";
+    const API_URL = import.meta.env.VITE_BASE_URL || "https://thumbler-mern-server.vercel.app/api/auth/google/callback";
 
     const navigate = useNavigate()
 
