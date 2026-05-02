@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom"
 const Login = () => {
     const [state, setState] = useState("login")
     const { user, login, signUp } = useAuth()
+    const API_URL = import.meta.env.VITE_BASE_URL || "http://localhost:3000";
 
     const navigate = useNavigate()
 
@@ -95,7 +96,7 @@ const Login = () => {
                     </p>
 
                     <a
-                        href={`${import.meta.env.VITE_BASE_URL}/api/auth/google`}
+                        href={`${API_URL}/api/auth/google`}
                         className="mb-10 w-full h-11 flex items-center justify-center gap-3 rounded-lg border border-gray-300 bg-white text-gray-700 font-medium hover:bg-gray-50 transition"
                     >
                         <img
