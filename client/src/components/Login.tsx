@@ -7,9 +7,9 @@ import { useNavigate } from "react-router-dom"
 
 const Login = () => {
     const [state, setState] = useState("login")
-    const {user, login, signUp} = useAuth()
+    const { user, login, signUp } = useAuth()
 
-    const navigate = useNavigate() 
+    const navigate = useNavigate()
 
     const [formData, setFormData] = useState({
         name: '',
@@ -33,10 +33,12 @@ const Login = () => {
 
     // if user is already login then redirect to home page 
     useEffect(() => {
-        if(user){
+        if (user) {
             navigate('/')
         }
     }, [user])
+
+    
 
     return (
         <>
@@ -49,7 +51,7 @@ const Login = () => {
                         {state === "login" ? "Login" : "Sign up"}
                     </h1>
 
-                    <p className="text-gray-400 text-sm mt-2">Please sign in to continue</p>
+                    <p className="text-gray-400 text-sm mt-2">Sign in with email or Google to continue</p>
 
                     {state !== "login" && (
                         <div className="flex items-center mt-6 w-full bg-white/5 ring-2 ring-white/10 focus-within:ring-pink-500/60 h-12 rounded-full overflow-hidden pl-6 gap-2 transition-all ">
@@ -82,6 +84,13 @@ const Login = () => {
                         {state === "login" ? "Don't have an account?" : "Already have an account?"}
                         <span className="text-pink-400 hover:underline ml-1">click here</span>
                     </p>
+
+                    <a
+                        href="http://localhost:5173/auth/google"
+                        className="mt-3 w-full h-11 flex items-center justify-center rounded-full text-white bg-white/10 hover:bg-white/20 transition"
+                    >
+                        Continue with Google
+                    </a>
                 </form>
 
             </div>
