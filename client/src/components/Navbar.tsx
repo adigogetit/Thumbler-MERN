@@ -56,8 +56,7 @@ export default function Navbar() {
                                 <div className="p-3">
                                     <button
                                         onClick={logout}
-                                        className="w-full flex items-center justify-center gap-2 rounded-xl bg-pink-600 hover:bg-pink-700 py-2.5 text-white font-medium transition"
-                                    >
+                                        className="w-full flex items-center justify-center gap-2 rounded-xl bg-pink-600 hover:bg-pink-700 py-2.5 text-white font-medium transition">
                                         <LogOut size={18} />
                                         Logout
                                     </button>
