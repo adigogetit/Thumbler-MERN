@@ -1,4 +1,4 @@
-import { MenuIcon, XIcon } from "lucide-react";
+import { MenuIcon, XIcon, LogOut } from "lucide-react";
 import { useState } from "react";
 import { motion } from "motion/react";
 import { Link, useNavigate } from "react-router-dom";
@@ -26,28 +26,51 @@ export default function Navbar() {
                     <Link to='/generate' className="hover:text-pink-500 transition">Generate</Link>
 
                     {isLoggedIn ? <Link to='/my-generation' className="hover:text-pink-500 transition">My-generation</Link>
-                        : <Link to='#' className="hover:text-pink-500 transition">About</Link>}
-
+                        : ""}
                     <Link to='/#' className="hover:text-pink-500 transition">Contact Us</Link>
                 </div>
 
                 <div className="flex items-center gap-2">
                     {isLoggedIn ? (
                         <div className="relative group">
-                            <button className="rounded-full size-8 bg-white/20 border-2 border-white/10">
-                                {user?.name.charAt(0).toUpperCase()}
+                            {/* Avatar */}
+                            <button className="size-10 rounded-full bg-gradient-to-br from-pink-500 to-red-500 flex items-center justify-center text-white font-semibold shadow-lg shadow-pink-500/30">
+                                {user?.name?.charAt(0).toUpperCase()}
                             </button>
-                            <div className="absolute hidden group-hover:block top-6 right-0 pt-4">
-                                <button onClick={() => logout()} className=" bg-white/20 border-2 border-white/10 px-5 py-1.5 rounded">
-                                    Logout
-                                </button>
+
+                            {/* Dropdown */}
+                            <div className="absolute right-0 mt-3 w-60 rounded-2xl bg-[#171717] border border-white/10 shadow-2xl
+                                            opacity-0 invisible -translate-y-2
+                                            group-hover:opacity-100 group-hover:visible group-hover:translate-y-0
+                                            transition-all duration-200 z-50" >
+                                {/* Header */}
+                                <div className="px-5 py-4 border-b border-white/10">
+                                    {user?.name
+                                        ?.toLowerCase()
+                                        .split(" ")
+                                        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                                        .join(" ")}
+                                </div>
+
+                                {/* Logout */}
+                                <div className="p-3">
+                                    <button
+                                        onClick={logout}
+                                        className="w-full flex items-center justify-center gap-2 rounded-xl bg-pink-600 hover:bg-pink-700 py-2.5 text-white font-medium transition">
+                                        <LogOut size={18} />
+                                        Logout
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     ) : (
-                        <button onClick={() => navigate('/login')} className="hidden md:block px-6 py-2.5 bg-pink-600 hover:bg-pink-700 active:scale-95 transition-all rounded-full">
+                        <button
+                            onClick={() => navigate("/login")}
+                            className="hidden md:block px-6 py-2.5 bg-pink-600 hover:bg-pink-700 active:scale-95 transition-all rounded-full">
                             Get Started
                         </button>
                     )}
+
                     <button onClick={() => setIsOpen(true)} className="md:hidden">
                         <MenuIcon size={26} className="active:scale-90 transition" />
                     </button>
@@ -62,7 +85,7 @@ export default function Navbar() {
                 <Link onClick={() => setIsOpen(false)} to='/generate'>Generate</Link>
 
                 {isLoggedIn ? <Link onClick={() => setIsOpen(false)} to='/my-generation'>My-generation</Link>
-                    : <Link onClick={() => setIsOpen(false)} to='#'>About</Link>}
+                    : ""}
 
                 <Link onClick={() => setIsOpen(false)} to='/#'>Contact us</Link>
 
