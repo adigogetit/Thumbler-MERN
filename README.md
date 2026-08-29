@@ -1,5 +1,5 @@
-# ThumblER
-Live link - https://thumblers.vercel.app/
+# ThumblER - Live link - https://thumblers.vercel.app
+
 ThumblER is a full-stack thumbnail generator app for YouTube-style content. Users can describe a video idea, choose a thumbnail style and aspect ratio, and generate a custom image using AI-powered prompts and Cloudinary hosting.
 
 ## Tech Stack
